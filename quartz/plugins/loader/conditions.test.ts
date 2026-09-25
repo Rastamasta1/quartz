@@ -3,13 +3,10 @@ import assert from "node:assert/strict"
 import { getCondition } from "./conditions"
 import type { QuartzComponentProps } from "../../components/types"
 
-function makeProps(slug: string): QuartzComponentProps {
-  return { fileData: { slug } } as unknown as QuartzComponentProps
-}
-
 describe("conditions", () => {
-  test("index page: is-index holds, not-index fails", () => {
-    const props = makeProps("index")
+  test("is-index and not-index evaluate correctly on an index page", () => {
+    const props = { fileData: { slug: "index" } } as unknown as QuartzComponentProps
+
     const isIndex = getCondition("is-index")
     const notIndex = getCondition("not-index")
 
@@ -20,8 +17,9 @@ describe("conditions", () => {
     assert.equal(notIndex!(props), false)
   })
 
-  test("non-index page: is-index fails, not-index holds", () => {
-    const props = makeProps("about")
+  test("is-index and not-index evaluate correctly on a non-index page", () => {
+    const props = { fileData: { slug: "about" } } as unknown as QuartzComponentProps
+
     const isIndex = getCondition("is-index")
     const notIndex = getCondition("not-index")
 
